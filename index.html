@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine ❤️</title>
+
+<style>
+body {
+margin: 0;
+height: 100vh;
+background: linear-gradient(135deg, #ff5f8f, #ff9ab3);
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: Arial, sans-serif;
+overflow: hidden;
+}
+
+.box {
+background: white;
+padding: 36px;
+border-radius: 26px;
+text-align: center;
+box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+max-width: 92%;
+}
+
+h1 {
+color: #ff2f6e;
+font-size: 38px;
+margin-bottom: 10px;
+}
+
+p {
+font-size: 22px;
+color: #444;
+margin-bottom: 25px;
+}
+
+button {
+padding: 16px 34px;
+font-size: 20px;
+border-radius: 16px;
+border: none;
+cursor: pointer;
+margin: 12px;
+}
+
+#yes {
+background: #ff2f6e;
+color: white;
+}
+
+#no {
+background: #adb5bd;
+color: white;
+position: absolute;
+}
+
+#yay {
+display: none;
+}
+
+img {
+width: 460px;
+max-width: 95%;
+margin-top: 25px;
+border-radius: 24px;
+}
+
+#playBtn {
+background: #FF0000;
+color: white;
+margin-top: 20px;
+}
+
+canvas {
+position: fixed;
+top: 0;
+left: 0;
+pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="boom"></canvas>
+
+<div class="box" id="question">
+<h1>Will you be my Valentine? 💖</h1>
+<p>You can try saying no… but good luck my shayla 🌚</p>
+<button id="yes">YES ❤️</button>
+<button id="no">NO 💔</button>
+</div>
+
+<div class="box" id="yay">
+<h1>YAYYYYY!!! 🥰💘</h1>
+<p>You just made my Valentine’s Day ❤️</p>
+
+<img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExejJhMmd5bG9hMW1raHc0ZW82bmtpYXdqanFvOWQ2aXdqaDZibGlsaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MOWPkhRAUbR7i/giphy.gif">
+
+<br>
+
+<button id="playBtn" onclick="openMusic()">🎵 Play Our Song</button>
+</div>
+
+<script>
+const no = document.getElementById("no");
+const yes = document.getElementById("yes");
+const question = document.getElementById("question");
+const yay = document.getElementById("yay");
+
+function moveNo() {
+no.style.left = Math.random() * (window.innerWidth - 140) + "px";
+no.style.top = Math.random() * (window.innerHeight - 70) + "px";
+}
+
+no.addEventListener("mouseover", moveNo);
+no.addEventListener("click", moveNo);
+
+yes.addEventListener("click", () => {
+question.style.display = "none";
+yay.style.display = "block";
+explode();
+});
+
+function openMusic() {
+window.open(
+"https://music.youtube.com/watch?v=cWIGUPQqnSk&si=UTqogdsoHbmhPhSi",
+"_blank"
+);
+}
+
+function explode() {
+const canvas = document.getElementById("boom");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const particles = [];
+
+for (let i = 0; i < 180; i++) {
+particles.push({
+x: canvas.width / 2,
+y: canvas.height / 2,
+r: Math.random() * 6 + 4,
+dx: (Math.random() - 0.5) * 16,
+dy: (Math.random() - 0.5) * 16,
+life: 110
+});
+}
+
+function animate() {
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+particles.forEach(p => {
+p.x += p.dx;
+p.y += p.dy;
+p.life--;
+ctx.fillStyle = `rgba(255,47,110,${p.life / 110})`;
+ctx.beginPath();
+ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+ctx.fill();
+});
+
+if (particles.some(p => p.life > 0)) {
+requestAnimationFrame(animate);
+}
+}
+
+animate();
+}
+</script>
+
+</body>
+</html>
